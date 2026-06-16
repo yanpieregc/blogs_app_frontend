@@ -1,0 +1,35 @@
+import { useState } from "react"
+import Notification from "./Notification.jsx"
+
+const LoginForm = ({ login, errorMessage }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    console.log('loggin in with', username)
+
+    login({
+      username: username,
+      password: password
+    })
+
+    setUsername('')
+    setPassword('')
+  }
+
+  return (
+    <>
+      <Notification className='error' message={errorMessage} />
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <p>username <input type="text" value={username} onChange={({ target }) => setUsername(target.value)}/></p>
+        <p>password <input type="password" value={password} onChange={({ target }) => setPassword(target.value)}/></p>
+        <button type='submit'>Login</button>
+      </form>
+    </>
+  )
+}
+
+export default LoginForm
