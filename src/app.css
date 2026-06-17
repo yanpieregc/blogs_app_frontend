@@ -22,3 +22,14 @@
   border-width: 2px;
   margin-bottom: 2px
 }
+
+.btnRemove {
+    background-color: rgb(228, 52, 52);
+    color: white;
+    border-radius: 5px;
+}
+
+.btnLike {
+    background-color: rgb(97, 168, 239);
+    border-radius: 5px;
+}

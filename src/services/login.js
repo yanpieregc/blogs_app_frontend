@@ -1,11 +1,11 @@
 const urlBase = '/api/login'
 
 const post = (data) => ({
-	method: 'POST',
-	headers: {
-			'Content-Type': 'application/json'
-	},
-	body: JSON.stringify(data)
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
 })
 
 const login = async credentials => {

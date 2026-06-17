@@ -3,6 +3,7 @@ import Blog from './components/Blog.jsx'
 import LoginForm from './components/LoginForm.jsx'
 import BlogForm from './components/BlogForm.jsx'
 import Togglable from './components/Togglable.jsx'
+import Notification from './components/Notification.jsx'
 import blogService from './services/blogs.js'
 import loginService from './services/login.js'
 import './app.css'
@@ -15,8 +16,8 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      setBlogs(blogs)
+    )
   }, [])
 
   useEffect(() => {
@@ -46,18 +47,63 @@ const App = () => {
   const addBlog = async (blogObject) => {
     await blogService
       .createData(blogObject)
-        .then(returnedBlog => {
-          setBlogs(prev => [...prev, returnedBlog])
-          setSuccessMessage(`a new blog ${blogObject.title} by ${blogObject.author}`)
+      .then(returnedBlog => {
+        setBlogs(prev => [...prev, returnedBlog])
+        setSuccessMessage(`a new blog ${blogObject.title} by ${blogObject.author}`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+      })
+      .catch(error => {
+        setErrorMessage(error.message)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+  }
+
+  const addLikes = async (id, blogObject) => {
+    await blogService
+      .updateData(id, blogObject)
+      .then(updateBlog => {
+        setBlogs(blogs => blogs.map(blog => blog.id === id ? updateBlog : blog))
+        setSuccessMessage(`1 like has been added to the blog ${blogObject.title}`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 3000)
+      })
+      .catch(error => {
+        setErrorMessage(error.message)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+  }
+
+  const deleteBlog = async (id) => {
+    const blogToDelete = blogs.find(b => b.id === id)
+    if (window.confirm(`Remove blog ${blogToDelete.title} by ${blogToDelete.author}`))
+      await blogService
+        .deleteData(id)
+        .then(() => {
+          setBlogs(blogs.filter(blog => blog.id !== id))
+          setSuccessMessage('Blog remove successfully')
           setTimeout(() => {
             setSuccessMessage(null)
           }, 5000)
         })
         .catch(error => {
-          setErrorMessage(error.message)
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
+          if(error.status === 403) {
+            setErrorMessage('You do not have permission to delete this blog')
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          } else {
+            setErrorMessage(error.message)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          }
         })
   }
 
@@ -68,10 +114,12 @@ const App = () => {
 
   return (
     <>
+      <Notification className='success' message={successMessage} />
+      <Notification className='error' message={errorMessage} />
       <h1>blogs</h1>
       {user === null && (
         <Togglable buttonLabel='login'>
-          <LoginForm 
+          <LoginForm
             login={handleLogin}
             errorMessage={errorMessage}
           />
@@ -89,8 +137,13 @@ const App = () => {
           </Togglable>
         </>
       )}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      {[...blogs].sort((a, b) => a.likes - b.likes).map(blog =>
+        <Blog
+          key={blog.id}
+          updateBlog={addLikes}
+          blog={blog}
+          deleteB={deleteBlog}
+        />
       )}
     </>
   )
