@@ -19,3 +19,12 @@ https://github.com/yanpieregc/blogs_app_backend
 ## Instalación
 - pnpm install
 - pnpm run dev
+
+## Url de Despliegue
+https://app-blog-list.fly.dev/
+
+### Credenciaciales de prueba
+Actualmente la creacion de usuarios solo esta implementada en el backend.
+Para probar la aplicación utiliza estas credenciales:
+  Usuario: prueba
+  Contraseña: 123456
