@@ -1,8 +1,21 @@
-# React + Vite
+# App de Blogs(Front-end)
+Interfaz web que permite administrar blogs.
+Consume la API REST desarrollada en el repositorio del back-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Back-end
+https://github.com/yanpieregc/blogs_app_backend
 
-Currently, two official plugins are available:
+## Tecnologías
+- JavaScript
+- React
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
+- Registro de usuarios
+- Inicio de sesión
+- Crear blogs
+- Votar blogs
+- Eliminar blogs
+
+## Instalación
+- pnpm install
+- pnpm run dev
