@@ -118,12 +118,15 @@ const App = () => {
       <Notification className='error' message={errorMessage} />
       <h1>blogs</h1>
       {user === null && (
-        <Togglable buttonLabel='login'>
-          <LoginForm
-            login={handleLogin}
-            errorMessage={errorMessage}
-          />
-        </Togglable>
+        <>
+          <Togglable buttonLabel='login'>
+            <LoginForm
+              login={handleLogin}
+              errorMessage={errorMessage}
+            />
+          </Togglable>
+          <br></br>
+        </>
       )}
       {user !== null && (
         <>
@@ -135,6 +138,7 @@ const App = () => {
               errorMessage={errorMessage}
             />
           </Togglable>
+          <br></br>
         </>
       )}
       {[...blogs].sort((a, b) => b.likes - a.likes).map(blog =>

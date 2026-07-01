@@ -30,7 +30,7 @@ const BlogForm = ({ createBlog }) => {
         <p>title <input id='title' {...title.input} /></p>
         <p>author <input id='author' {...author.input} /></p>
         <p>url <input id='url' {...url.input} /></p>
-        <button type='submit'>create</button>
+        <button type='submit'>create</button>&emsp;&emsp;
         <button type='reset' onClick={clearInputs}>reset</button>
       </form>
     </>
