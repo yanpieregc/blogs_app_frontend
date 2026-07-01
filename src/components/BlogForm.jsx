@@ -20,7 +20,7 @@ const BlogForm = ({ createBlog }) => {
       url: url.input.value
     })
 
-    clearInputs
+    clearInputs()
   }
 
   return (
