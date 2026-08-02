@@ -3,7 +3,7 @@ const urlBase = '/api/blogs'
 let token = null
 
 const setToken = newToken => {
-  token = `Bearer ${newToken}`
+  token = newToken ? `Bearer ${newToken}` : null
 }
 
 const post = (data) => ({

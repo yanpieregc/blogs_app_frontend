@@ -23,13 +23,59 @@
   margin-bottom: 2px
 }
 
-.btnRemove {
-    background-color: rgb(228, 52, 52);
-    color: white;
-    border-radius: 5px;
+#login-form {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    max-width: 250px;
+    gap: 10px;
 }
 
-.btnLike {
-    background-color: rgb(97, 168, 239);
-    border-radius: 5px;
+#login-form button {
+    width: fit-content;
+}
+
+#blog-form {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    max-width: 350px;
+    gap: 10px;
+}
+
+#blog-form-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.blog-container {
+    box-shadow: 0px 20px 10px rgba(1, 40, 58, 0.183);
+    margin: 10px;
+    padding: 5px 10px 5px 10px;
+
+    h3 {
+        color: gray;
+    }
+}
+
+.blog-url {
+    color:blue;
+    text-decoration: underline;
+}
+
+.blog-user-name {
+    color: gray;
+}
+
+.likes-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+.likes-group button {
+    max-height: 35px;
+    margin-top: 8px;
 }

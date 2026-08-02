@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import Notification from './Notification.jsx'
+import { useParams, useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material'
 
-const Blog = ({ updateBlog, blog, deleteB }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = ({ user, blogs, updateBlog, delBlog }) => {
+  const id = useParams().id
+  const blog = blogs.find(b => b.id === id)
 
-  const showAll = () => {
-    setVisible(!visible)
-  }
+  const navigate = useNavigate()
 
   const addLikes = () => {
     updateBlog(blog.id, {
@@ -16,29 +15,59 @@ const Blog = ({ updateBlog, blog, deleteB }) => {
     })
   }
 
-  const deleteBlog = () => {
-    deleteB(blog.id)
+  const deleteBlog = async () => {
+    const deleted = await delBlog(blog.id)
+
+    if (deleted) {
+      navigate('/')
+    }
+  }
+
+  if (!blog) {
+    return <p>Loading...</p>
   }
 
   return (
-    <div className="blog">
+    <>
       {
-        !visible && (
-          <p>{blog.title} --- {blog.author} <button onClick={showAll}>view</button></p>
+        !user && (
+          <div className="blog-container">
+            <h2>{blog.title}</h2>
+            <h3>by {blog.author}</h3>
+            <p className="blog-url">{blog.url}</p>
+            <p className="blog-user-name">Added by {blog.user.name}</p>
+            <p><strong>{blog.likes} likes</strong></p>
+          </div>
         )
       }
+
       {
-        visible && (
-          <>
-            <p>{blog.title} --- {blog.author} <button onClick={showAll}>hide</button></p>
-            <p>{blog.url}</p>
-            <p>{blog.likes} <button type="button" className="btnLike" onClick={addLikes}>like</button></p>
-            <p>{blog.user.name}</p>
-            <button className="btnRemove" onClick={deleteBlog}>remove</button>
-          </>
-        )
+        user && user.name === blog.user.name 
+          ? <div className="blog-container">
+              <h2>{blog.title}</h2>
+              <h3>by {blog.author}</h3>
+              <p className="blog-url">{blog.url}</p>
+              <p className="blog-user-name">Added by {blog.user.name}</p>
+              <div className='likes-group'>
+                <p><strong>{blog.likes} likes</strong></p>
+                <Button type="button" variant='contained' onClick={addLikes}>like</Button>
+                <Button type='button' variant='contained' color='error' onClick={deleteBlog}>remove</Button>
+              </div>
+            </div>
+          : user && (
+              <div className="blog-container">
+                <h2>{blog.title}</h2>
+                <h3>by {blog.author}</h3>
+                <p className="blog-url">{blog.url}</p>
+                <p className="blog-user-name">Added by {blog.user.name}</p>
+                <div className='likes-group'>
+                  <p><strong>{blog.likes} likes</strong></p>
+                  <Button variant='contained' type="button" onClick={addLikes}>like</Button>
+                </div>
+              </div>
+            )
       }
-    </div>
+    </>
   )
 }
 
